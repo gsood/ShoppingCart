@@ -24,4 +24,29 @@ class CheckoutSystemSpec extends AnyFlatSpec {
 
     assert(totalCost === 290)
   }
+
+  it should "Apply Buyone Get one Offer on Apple when there are even number of Apples in cart" in {
+    val totalCost = CheckoutSystem.checkout(List(Apple, Apple, Apple, Apple), List(BuyOneGetOne(Apple)))
+    assert(totalCost === 120)
+  }
+
+  it should "Apply Buyone Get one Offer on Apple when there are odd number of Apples in cart" in {
+    val totalCost = CheckoutSystem.checkout(List(Apple, Apple, Apple, Apple, Apple, Apple, Apple), List(BuyOneGetOne(Apple)))
+    assert(totalCost === 240)
+  }
+
+  it should "Apply Three for Two Offer on Oranges when there Oranges are multiple of 3" in {
+    val totalCost = CheckoutSystem.checkout(List(Orange, Orange, Orange, Orange, Orange, Orange), List(ThreeForTwo(Orange)))
+    assert(totalCost === 100)
+  }
+
+  it should "Apply Three for Two Offer on Oranges when there Oranges are not a multiple of 3" in {
+    val totalCost = CheckoutSystem.checkout(List(Orange, Orange, Orange, Orange, Orange, Orange, Orange, Orange, Orange, Orange, Orange), List(ThreeForTwo(Orange)))
+    assert(totalCost === 200)
+  }
+
+  it should "Apply all offers and calculate total price correctly" in {
+    val totalCost = CheckoutSystem.checkout(List(Apple, Apple, Apple, Orange, Orange, Orange, Orange), List(BuyOneGetOne(Apple), ThreeForTwo(Orange)))
+    assert(totalCost === 195)
+  }
 }
